@@ -42,7 +42,6 @@ function Product({ product }) {
             src={`${product.image}`}
             className="card-img-top"
             alt={product.name}
-            loading="lazy"
             rel="preload"
           />
         </Link>

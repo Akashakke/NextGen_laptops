@@ -56,7 +56,6 @@ function App() {
     };
     fetchCategories();
   }, []);
-  console.log(categories);
   return (
     <BrowserRouter>
       <div
