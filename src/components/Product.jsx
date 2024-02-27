@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import { Link, useNavigate } from "react-router-dom";
 import Rating from "@/Rating";
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Store } from "@@/Store";
 import { laptop_url } from "@@/config";
 import PropTypes from "prop-types"; // Import PropTypes
@@ -16,6 +16,16 @@ function Product({ product }) {
   // const {
   //   cart: { cartItems },
   // } = state;
+
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = product.image;
+    img.onload = () => {
+      setImageLoaded(true);
+    };
+  }, [product.image]);
 
   const { cart } = state;
   const addToCartHandler = async () => {
@@ -34,23 +44,26 @@ function Product({ product }) {
     });
     navigate("/cart");
   };
+
   return (
     <div>
-      <Card className="card h-100">
+      <Card className="card h-100" aria-hidden="true">
         <Link to={`/product/${product.slug}`}>
           <img
-            src={`${product.image}`}
-            className="card-img-top"
-            alt={product.name}
+            // src={imageLoaded ? product.image : ""}
+            src={product.image}
+            // className="card-img-top"
+            className={imageLoaded ? "card-img-top" : "card-img-top skeleton "}
+            alt="..."
             rel="preload"
           />
         </Link>
         <Card.Body>
           <Link to={`/product/${product.slug}`}>
-            <Card.Title>{product.name}</Card.Title>
+            <Card.Title className="placeholder-glow">{product.name}</Card.Title>
           </Link>
           <Rating rating={product.rating} numReviews={product.numReviews} />
-          <Card.Text>${product.price}</Card.Text>
+          <Card.Text className="placeholder-glow">${product.price}</Card.Text>
           {product.countInStock === 0 ? (
             <Button variant="light" disabled>
               Out of stock
