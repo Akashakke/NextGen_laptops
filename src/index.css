@@ -84,6 +84,7 @@ main {
 }
 .card-img-top {
   object-fit: contain;
+  animation: img-loading 1s;
 }
 .card-img-top.skeleton {
   width: 300px;
@@ -128,5 +129,14 @@ main {
   }
   100% {
     left: 100%;
+  }
+}
+
+@keyframes img-loading {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
   }
 }
