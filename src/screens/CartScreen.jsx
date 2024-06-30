@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Store } from "@@/Store";
 import { Helmet } from "react-helmet-async";
 import Row from "react-bootstrap/Row";
@@ -14,12 +14,16 @@ import { laptop_url } from "@@/config";
 export default function CartScreen() {
   const navigate = useNavigate();
   const { state, dispatch: ctxDispatch } = useContext(Store);
+  const [avlloader, setavlloader] = useState(false);
   const {
     cart: { cartItems },
   } = state;
 
   const updateCartHandler = async (item, quantity) => {
+    setavlloader(true);
     const { data } = await axios.get(`${laptop_url}/api/products/${item._id}`);
+    setavlloader(false);
+
     if (data.countInStock < quantity) {
       window.alert("Sorry. Product is out of stock");
       return;
@@ -53,13 +57,16 @@ export default function CartScreen() {
             <ListGroup>
               {cartItems.map((item) => (
                 <ListGroup.Item key={item._id}>
-                  <Row className="align-items-center">
+                  <Row
+                    style={avlloader ? { opacity: 0.5 } : {}}
+                    className="align-items-center"
+                  >
                     <Col md={4}>
                       <img
                         src={`${item.image}`}
                         alt={item.name}
                         className="img-fluid rounded img-thumbnail"
-                      ></img>{" "}
+                      ></img>
                       <Link to={`/product/${item.slug}`}>{item.name}</Link>
                     </Col>
                     <Col md={3}>

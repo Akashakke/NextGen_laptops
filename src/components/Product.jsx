@@ -52,8 +52,8 @@ function Product({ product }) {
           <img
             // src={imageLoaded ? product.image : ""}
             src={product.image}
-            // className="card-img-top"
-            className={imageLoaded ? "card-img-top" : "card-img-top skeleton "}
+            className="card-img-top skeleton"
+            // className={imageLoaded ? "card-img-top" : "card-img-top skeleton "}
             alt="..."
             rel="preload"
           />
